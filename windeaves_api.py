@@ -12,7 +12,7 @@ def trs_native(x):
             return x            
 
 class Api():
-    def init(self, name=""):
+    def __init__(self, name=""):
         self.name = name
 
     def judgeId(self):
