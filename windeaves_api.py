@@ -16,7 +16,6 @@ class Api():
         self.name = name
 
     def judgeId(self):
-        return True
         raise NotImplementedError("JudgeId Not Implemented: No Name")
 
     def id(self, name):
@@ -44,3 +43,23 @@ class Api():
 
     def send(self):
         return (200, self.run().encode('utf-8'))
+
+
+class RegisterGetSaltApi(Api):
+    
+    def judgeId(self, name):
+        if(name == 'regsNaNO3'):
+            return True
+        else:
+            return False
+    
+    def run(self):
+        if('tel' not in self.para.keys()):
+            return (400, "para incorrect!")
+        else:
+            return 
+
+    def send(self):
+        content = self.run()
+        if(content[0] == 400):
+            return content
