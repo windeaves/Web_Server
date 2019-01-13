@@ -20,9 +20,12 @@ class RequestHandler( server.BaseHTTPRequestHandler ):
     def do_GET(self):
         try:
             print(self.path)
-            self.send_content(RequestHandler.DefaultPage)
             path = self.path.split('/')
+            print(path)
+            if(path[0]==''):
+                path.pop(0)
             if(path[0] == 'api'):
+                print('api: '+path[1])
                 for api in RequestHandler.apis:
                     if(api.id(path[1])):
                         api.setPara(path[2])
@@ -31,7 +34,8 @@ class RequestHandler( server.BaseHTTPRequestHandler ):
                             self.send_content(send[1])
                         else:
                             self.handle_error(send[1])
-                        break
+                        return
+            self.send_content(RequestHandler.DefaultPage)
 
         except Exception as msg:
             self.handle_error(msg)
@@ -45,7 +49,7 @@ class RequestHandler( server.BaseHTTPRequestHandler ):
 
 
     def handle_error(self, msg):
-        content = self.ErrorPage.replace('{msg}', msg)
+        content = self.ErrorPage.replace('{msg}', str(msg))
         self.send_content(content.encode('utf-8'),404)
 
 

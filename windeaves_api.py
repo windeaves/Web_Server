@@ -16,6 +16,7 @@ class Api():
         self.name = name
 
     def judgeId(self):
+        return True
         raise NotImplementedError("JudgeId Not Implemented: No Name")
 
     def id(self, name):
@@ -27,7 +28,7 @@ class Api():
 
     def setPara(self,path):
         if(path[0]=='?'):
-            path.pop(0)
+            path = path[1:]
         else:
             raise Exception("Wrong Para!")
         
@@ -42,4 +43,4 @@ class Api():
         return page.format(content=str(self.para))
 
     def send(self):
-        return (00, self.run().encode('utf-8'))
+        return (200, self.run().encode('utf-8'))
