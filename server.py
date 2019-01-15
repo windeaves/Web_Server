@@ -15,7 +15,7 @@ class RequestHandler( server.BaseHTTPRequestHandler ):
 
     ErrorPage = '''{"status" : "Error","code" : 404,"msg": "{msg}"}'''
 
-    apis = [Api()] 
+    apis = [ RegisterGetSaltApi('regsNaNO3'), Api()] 
 
     def do_GET(self):
         try:
@@ -25,17 +25,16 @@ class RequestHandler( server.BaseHTTPRequestHandler ):
             if(path[0]==''):
                 path.pop(0)
             if(path[0] == 'api'):
-                print('api: '+path[1])
                 for api in RequestHandler.apis:
-                    if(api.id(path[1])):
-                        api.setPara(path[2])
+                    if(api.id(path[1].split('?')[0])):
+                        print('api: '+api.name)
+                        api.setPara(path[1].split('?')[1])
                         send = api.send()
                         if(send[0] == 200):
                             self.send_content(send[1])
                         else:
                             self.handle_error(send[1])
                         return
-            self.send_content(RequestHandler.DefaultPage)
 
         except Exception as msg:
             self.handle_error(msg)

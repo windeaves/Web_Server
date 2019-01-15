@@ -28,8 +28,8 @@ class Api():
     def setPara(self,path):
         if(path[0]=='?'):
             path = path[1:]
-        else:
-            raise Exception("Wrong Para!")
+        #else:
+        #    raise Exception("Wrong Para!")
         
         para = path.split('&')
         self.para = {}
@@ -52,14 +52,20 @@ class RegisterGetSaltApi(Api):
             return True
         else:
             return False
+
+    def id(self, name):
+        return self.judgeId(name)
     
     def run(self):
         if('tel' not in self.para.keys()):
             return (400, "para incorrect!")
         else:
-            return 
+            return (200, "tel:"+str(self.para["tel"]))
+    
+    def setPara(self, path):
+        return super().setPara(path)
 
     def send(self):
-        content = self.run()
-        if(content[0] == 400):
-            return content
+        code, content = self.run()
+        content = content.encode()
+        return (code, content)
