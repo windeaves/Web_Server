@@ -31,10 +31,15 @@ class RequestHandler( server.BaseHTTPRequestHandler ):
                         api.setPara(path[1].split('?')[1])
                         send = api.send()
                         if(send[0] == 200):
-                            self.send_content(send[1])
+                            self.send_content(send[1],status=200, type=api.type)
                         else:
                             self.handle_error(send[1])
                         return
+            else:
+                if(path[0] == 'favicon.ico'):
+                    print("send favicon.ico")
+                    with open('./favicon.ico', 'rb') as f:
+                        self.send_content(f.read(), 200, "image/x-icon")
 
         except Exception as msg:
             self.handle_error(msg)

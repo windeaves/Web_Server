@@ -1,3 +1,7 @@
+import json
+from string import digits, ascii_letters
+from random import sample
+
 def trs_native(x):
     try:
         int(x)
@@ -14,6 +18,7 @@ def trs_native(x):
 class Api():
     def __init__(self, name=""):
         self.name = name
+        self.api = "application/json"
 
     def judgeId(self):
         raise NotImplementedError("JudgeId Not Implemented: No Name")
@@ -46,6 +51,12 @@ class Api():
 
 
 class RegisterGetSaltApi(Api):
+
+    template = {"status": "Normal", "code": 200, "content": {"salt" : None}}
+
+    def __init__(self, name=''):
+        super().__init__()
+        self.type = "application/json"
     
     def judgeId(self, name):
         if(name == 'regsNaNO3'):
@@ -60,7 +71,7 @@ class RegisterGetSaltApi(Api):
         if('tel' not in self.para.keys()):
             return (400, "para incorrect!")
         else:
-            return (200, "tel:"+str(self.para["tel"]))
+            return (200, json.dumps({"status": "Normal", "code": 200, "content": {"salt" : self.generateSalt()}}))
     
     def setPara(self, path):
         return super().setPara(path)
@@ -69,3 +80,6 @@ class RegisterGetSaltApi(Api):
         code, content = self.run()
         content = content.encode()
         return (code, content)
+
+    def generateSalt(self):
+        salt = ''.join(sample(digits+ascii_letters, 16))
