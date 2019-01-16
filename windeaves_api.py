@@ -71,10 +71,12 @@ class RegisterGetSaltApi(Api):
         if('tel' not in self.para.keys()):
             return (400, "para incorrect!")
         else:
-            return (200, json.dumps({"status": "Normal", "code": 200, "content": {"salt" : self.generateSalt()}}))
+            return (200, json.dumps({"status": "Normal", "code": 200, "content": {"salt" : self.generateSalt(), "tel": self.para["tel"]}}))
     
     def setPara(self, path):
-        return super().setPara(path)
+        super().setPara(path)
+        if "tel" in self.para.keys():
+            self.para["tel"] = str(self.para["tel"])
 
     def send(self):
         code, content = self.run()
@@ -83,3 +85,17 @@ class RegisterGetSaltApi(Api):
 
     def generateSalt(self):
         salt = ''.join(sample(digits+ascii_letters, 16))
+        with open('./data/registerSalt.json', "r+") as f:
+            ary = json.load(f)
+            flag = True
+        with open('./data/registerSalt.json','w+') as f:
+            for x in ary:
+                if(x["tel"] == self.para["tel"]):
+                    x["salt"] = salt
+                    flag = False
+                    break
+            if(flag):
+                ary.append({"tel":self.para["tel"], "salt": salt})
+            json.dump(ary,f)
+            return salt
+            
