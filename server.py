@@ -40,6 +40,8 @@ class RequestHandler( server.BaseHTTPRequestHandler ):
                     print("send favicon.ico")
                     with open('./favicon.ico', 'rb') as f:
                         self.send_content(f.read(), 200, "image/x-icon")
+                elif(path[0] == ''):
+                    self.send_content(RequestHandler.DefaultPage)
 
         except Exception as msg:
             self.handle_error(msg)
