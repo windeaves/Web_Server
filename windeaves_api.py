@@ -99,3 +99,19 @@ class RegisterGetSaltApi(Api):
             json.dump(ary,f)
             return salt
             
+class Register(Api):
+
+    def __init__(self, name='regs'):
+        super().__init__(name=name)
+        self.type = "application/json"
+
+    def run(self):
+        pass
+
+    def setPara(self, path):
+        super().setPara(path)
+        if "tel" in self.para.keys():
+            self.para["tel"] = str(self.para["tel"])
+        
+    def send(self):
+        code, content = self.run()
