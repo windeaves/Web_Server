@@ -100,13 +100,22 @@ class RegisterGetSaltApi(Api):
             return salt
             
 class Register(Api):
+    # tel, mail, 
+    template = {"status": "Normal", "code": 200, "content": None}
 
     def __init__(self, name='regs'):
         super().__init__(name=name)
         self.type = "application/json"
 
     def run(self):
-        pass
+        with open('./data/userInfo.json') as f:
+            ary = json.load(f)
+            ary.append(self.para)
+            json.dump(ary,f)
+        b = Register.template
+        b["content"] = {"tel":self.para["tel"]}
+        return (200, str(b))
+
 
     def setPara(self, path):
         super().setPara(path)
@@ -115,3 +124,4 @@ class Register(Api):
         
     def send(self):
         code, content = self.run()
+        return (code, content)
