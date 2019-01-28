@@ -3,3 +3,7 @@
 
 #python ignore
 __pycache__/
+
+#app data ignore
+data/registerSalt.json
+data/userInfo.json
