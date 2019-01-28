@@ -108,9 +108,10 @@ class Register(Api):
         self.type = "application/json"
 
     def run(self):
-        with open('./data/userInfo.json') as f:
+        with open('./data/userInfo.json','r+') as f:
             ary = json.load(f)
             ary.append(self.para)
+        with open('./data/userInfo.json','w+') as f:
             json.dump(ary,f)
         b = Register.template
         b["content"] = {"tel":self.para["tel"]}
