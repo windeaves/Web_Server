@@ -15,7 +15,7 @@ class RequestHandler( server.BaseHTTPRequestHandler ):
 
     ErrorPage = '''{"status" : "Error","code" : 404,"msg": "{msg}"}'''
 
-    apis = [ RegisterGetSaltApi('regsNaNO3'), Api()] 
+    apis = [ RegisterGetSaltApi('regsNaNO3'), Register('regs'),Api()] 
 
     def do_GET(self):
         try:
