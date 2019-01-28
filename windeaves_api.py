@@ -125,4 +125,5 @@ class Register(Api):
         
     def send(self):
         code, content = self.run()
+        content = content.encode()
         return (code, content)
