@@ -125,5 +125,5 @@ class Register(Api):
         
     def send(self):
         code, content = self.run()
-        content = content.encode()
+        content = content.replace('\'','\"').encode()
         return (code, content)
